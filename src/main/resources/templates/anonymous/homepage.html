@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head  th:replace="template.html :: header(Vimeo)"></head>
+
+<body class="bg-light">
+
+<div  th:replace="template.html :: top"> </div>
+
+<div  class="sidebar" th:insert="template.html :: sidebar"></div>
+
+       
+     <!-- main --> 
+     
+     <div class="container">
+      
+        <div class="list-container"  th:each = "video : ${videos}" >
+            <div class="vid-list">
+                <a th:href="@{/watch?(id=${video.id})}"><img th:src="${video.avatar}" class="thumbnail"></a>
+                <div class="flex-div">
+                    <img th:src="@{${video.user.avatar}}">
+                    <div class="vid-info">
+                        <a th:href="@{/watch(id=${video.id})}" th:text = "${video.title}"></a>
+                        <p th:text = "${video.user.fullName}"></p>
+                        <p th:text = "|${video.views} &bull; ${video.createdDate}|"> </p>
+                    </div>
+                </div>
+            </div>            
+        </div>          
+     </div>
+
+	<div th:replace="template.html :: script"></div>
+</body>
+</html>

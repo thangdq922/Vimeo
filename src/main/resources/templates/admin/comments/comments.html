@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+
+<head  th:replace="~{aTemplate.html :: header(Comments)}"></head>
+
+<div  th:replace="aTemplate.html :: top"> </div>
+
+<div  class="sidebar" th:insert="aTemplate.html :: sidebar"></div>
+ 
+  <body class="bg-light">
+    
+
+    <!-- Main body -->
+    <div class="container">
+    
+      <!-- Table -->
+      <div class="table-responsive" >
+      <div class="widget-box table-filter">
+								<div class="table-btn-controls">
+									<div class="pull-right tableTools-container">
+										<div class="dt-buttons btn-overlap btn-group">
+											
+											<button id="btnDelete" type="button"
+												onclick="warningBeforeDelete()"
+												class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
+												data-toggle="tooltip" title='Delete'>
+												<span> <i class="fa fa-trash-o bigger-110 pink"></i>
+												</span>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+      <table class="table table-fit mt-5 table-striped" >
+        <thead class="table-dark">
+          <tr>
+          	<th></th>
+            <th scope="col">Content</th>
+            <th scope="col">Writer</th>
+            <th scope="col">Video</th>
+            <th scope="col">CreateDate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each = "comment : ${comments}">
+            <th ><input type="checkbox" name='foo' th:id="|checkbox_${comment.id}|" th:value="${comment.id}"></th>
+            <td th:text ="${comment.content}"></td>
+            <td th:text ="${comment.user.fullName}"></td>
+            <td th:text ="${comment.video_id}"></td>
+            <td th:text ="${comment.createdDate}"></td>
+            
+          </tr>
+       
+        </tbody>
+      </table>
+    </div>
+</div>
+
+   	<div th:replace="aTemplate.html :: script"></div>
+  <!-- search -->	
+ 		<script type="text/javascript" th:inline="javascript"> 
+ 		var titles = [];
+ 		/*[# th:each="n : ${comments}"]*/
+ 		titles.push("[(${n.content})]");
+ 		/*[/]*/
+ 	    
+ 		autocomplete(document.getElementById("myInput"), titles);
+ 		</script>
+   
+    <script>
+
+    function warningBeforeDelete() {
+		swal({
+			title : "Are you sure delete?",
+			text : "You will not be able to recover",
+			icon : "warning",
+			buttons: true,
+			dangerMode: true,
+		}).then((isConfirm) => {
+					if (isConfirm) {
+						var ids = $('tbody input[type=checkbox]:checked')
+								.map(function() {
+									return $(this).val();
+								}).get();
+						console.log(ids)
+						deleteNew(ids);
+					}else {
+					    swal("Data is safe!");
+					  }
+				});
+	}
+	
+			function deleteNew(data) {
+			$.ajax({
+						url : '/admin/api/comment',
+						type : 'delete',
+						contentType : 'application/json',
+						data : JSON.stringify(data),
+						success : function() {
+						
+							 window.location.href = "/admin/comments"; 
+						},
+						error : function(error) {
+							
+							 swal("Error!", "Delete error", "error");
+
+						}
+					});
+		}
+	</script>
+	
+  </body>
+</html>

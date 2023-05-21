@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+
+<head  th:replace="~{aTemplate.html :: header(User)}"></head>
+
+<div  th:replace="aTemplate.html :: top"> </div>
+
+<div  class="sidebar" th:insert="aTemplate.html :: sidebar"></div>
+ 
+  <body class="bg-light">
+    
+
+    <!-- Main body -->
+    <div class="container">
+    
+      <!-- Table -->
+      <div class="table-responsive" >
+      <div class="widget-box table-filter">
+								<div class="table-btn-controls">
+									<div class="pull-right tableTools-container">
+										<div class="dt-buttons btn-overlap btn-group">
+											<a flag="info"
+												class="dt-button buttons-colvis btn btn-white btn-primary btn-bold"
+												data-toggle="tooltip" title='Add New'
+												th:href='@{/admin/users/edit}'> <span> <i
+													class="fa fa-plus-circle bigger-110 purple"></i>
+											</span>
+											</a>
+											<button id="btnDelete" type="button"
+												onclick="warningBeforeDelete()"
+												class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
+												data-toggle="tooltip" title='Delete'>
+												<span> <i class="fa fa-trash-o bigger-110 pink"></i>
+												</span>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+      <table class="table table-fit mt-5 table-striped" >
+        <thead class="table-dark">
+          <tr>
+          	<th></th>
+            <th scope="col">UserName</th>
+            <th scope="col">Password</th>
+            <th scope="col">FullName</th>
+            <th scope="col">Email</th>
+            <th scope="col">Avatar</th>
+             <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each = "user : ${users}">
+            <th ><input type="checkbox" name='foo' th:id="|checkbox_${user.id}|" th:value="${user.id}"></th>
+            <td th:text ="${user.userName}"></td>
+            <td th:text ="${user.password}"></td>
+            <td th:text ="${user.fullName}"></td>
+            <td th:text ="${user.email}"></td>
+            <td th:text ="${user.avatar}"></td>
+            <td >
+              <div class="d-flex flex-row  mb-3">
+                <a th:href = "@{/admin/users/edit?(id=${user.id})}" ><button type="button" class="btn">
+                  <i class="material-icons text-warning">edit</i>
+                </button></a>
+              
+              </div>
+            </td>
+          </tr>
+       
+        </tbody>
+      </table>
+    </div>
+</div>
+
+   	<div th:replace="aTemplate.html :: script"></div>
+ <!-- search -->	
+ 		<script type="text/javascript" th:inline="javascript"> 
+ 		var titles = [];
+ 		/*[# th:each="n : ${users}"]*/
+ 		titles.push("[(${n.fullName})]");
+ 		/*[/]*/
+ 	    
+ 		autocomplete(document.getElementById("myInput"), titles);
+ 		</script>
+   
+    <script>
+
+    function warningBeforeDelete() {
+		swal({
+			title : "Are you sure delete?",
+			text : "You will not be able to recover",
+			icon : "warning",
+			buttons: true,
+			dangerMode: true,
+		}).then((isConfirm) => {
+					if (isConfirm) {
+						var ids = $('tbody input[type=checkbox]:checked')
+								.map(function() {
+									return $(this).val();
+								}).get();
+						
+						deleteNew(ids);
+						
+					}else {
+					    swal("Data is safe!");
+					  }
+				});
+	}
+	
+			function deleteNew(data) {
+			$.ajax({
+						url : '/admin/api/user',
+						type : 'DELETE',
+						contentType : 'application/json',
+						data : JSON.stringify(data),
+						success : function(result) {							
+							window.location.href = "/admin/users";
+						},
+						error : function(error) {
+							 swal("Error!", "Delete error", "error");
+						}
+					});
+		}
+	</script>
+	
+  </body>
+</html>

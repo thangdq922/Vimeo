@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang=en xmlns:th="http://www.thymeleaf.org">
+
+<head  th:replace="template.html :: header(${title})"></head>
+
+<body>
+
+   
+   <div th:replace="template.html :: top">></div>
+
+	<div  class="sidebar" th:insert="template.html :: sidebar"></div>
+
+<div class="Search" >
+<div class="dropdownS">
+	<button id="sort" onclick="myFunction()"><img src="/asset/filter.png"> Filter</button>
+	<div id="myDropdown" class="dropdown-contentS">
+    <span id="relevance">Relevance</span>
+    <span id="view">View</span>
+    <span id="date">Update date</span>
+  </div>
+	</div>
+	<hr>
+	<div class="relevance">
+    <div class="side-video-list" th:each ="video : ${resultsV}">
+        <a th:href="@{/watch(id=${video.id})}"><img th:src="${video.avatar}"></a>
+                <div class="vid-info">                  
+                        <a th:href="@{/watch(id=${video.id})}" th:text = "${video.title}"></a>
+                      <p><img th:src="@{${video.user.avatar}}">  <span th:text = "${video.user.fullName}"></span></p>
+                        <p th:text = "|${video.views} &bull; ${video.createdDate}|"> </p>                   
+           </div>
+    </div>  
+   
+   
+	</div> 
+	
+	<div class = "date">
+	<div class="side-video-list" th:each ="video : ${resultsV_date}">
+        <a th:href="@{/watch(id=${video.id})}"><img th:src="${video.avatar}"></a>
+                <div class="vid-info">                  
+                        <a th:href="@{/watch(id=${video.id})}" th:text = "${video.title}"></a>
+                      <p><img th:src="@{${video.user.avatar}}">  <span th:text = "${video.user.fullName}"></span></p>
+                        <p th:text = "|${video.views} &bull; ${video.createdDate}|"> </p>                   
+           		</div>
+    </div>    
+	</div>
+	
+	<div class="view">
+	<div class="side-video-list" th:each ="video : ${resultsV_view}">
+        <a th:href="@{/watch(id=${video.id})}"><img th:src="${video.avatar}"></a>
+                <div class="vid-info">                  
+                        <a th:href="@{/watch(id=${video.id})}" th:text = "${video.title}"></a>
+                      <p><img th:src="@{${video.user.avatar}}">  <span th:text = "${video.user.fullName}"></span></p>
+                        <p th:text = "|${video.views} &bull; ${video.createdDate}|"> </p>                   
+           		</div>
+    </div>     
+	</div>
+</div>
+
+
+
+	<div th:replace="template.html :: script"></div>
+	<!-- Button -->
+	<script type="text/javascript">
+	function myFunction() {
+		  document.getElementById("myDropdown").classList.toggle("show");
+		}
+
+		window.onclick = function(event) {
+		  if (!event.target.matches('#sort')) {
+		    var dropdowns = document.getElementsByClassName("dropdown-contentS");
+		    var i;
+		    for (i = 0; i < dropdowns.length; i++) {
+		      var openDropdown = dropdowns[i];
+		      if (openDropdown.classList.contains('show')) {
+		        openDropdown.classList.remove('show');
+		      }
+		    }
+		  }
+		}
+	</script>
+	
+	<!-- toggle -->
+	<script>
+$(document).ready(function(){
+  $("#relevance").click(function(){
+	  $(".view").hide();
+	  $(".date").hide();
+	  $(".relevance").show();
+  });
+  
+  $("#view").click(function(){
+	  $(".relevance").hide();
+	  $(".date").hide();
+	  $(".view").show();
+  });
+  
+  $("#date").click(function(){
+	  $(".relevance").hide();
+	  $(".view").hide();
+	  $(".date").show();
+  });
+   
+});
+</script>
+
+</body>
+</html>

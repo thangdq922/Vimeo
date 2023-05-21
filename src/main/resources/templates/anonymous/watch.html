@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head  th:replace="template.html :: header(Vimeo)">
+</head>
+
+<body >
+
+<div th:replace="template.html :: top">></div>
+
+<div class="sidebar"  th:insert="template.html :: sidebar"></div>
+
+
+   
+    <div class="containe play-container">
+        <div class="row"  th:object = "${video}">
+            <div class="play-video">
+                <div class="video-container paused" data-volume-level="high">
+                        <img class="thumbnail-img">
+                        <div class="video-controls-container">
+                          <div class="timeline-container">
+                            <div class="timeline">
+                              <img class="preview-img">
+                              <div class="thumb-indicator"></div>
+                            </div>
+                          </div>
+                          <div class="controls">
+                            <button class="play-pause-btn">
+                              <svg class="play-icon" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+                              </svg>
+                              <svg class="pause-icon" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
+                              </svg>
+                            </button>
+                            <div class="volume-container">
+                              <button class="mute-btn">
+                                <svg class="volume-high-icon" viewBox="0 0 24 24">
+                                  <path fill="currentColor" d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z" />
+                                </svg>
+                                <svg class="volume-low-icon" viewBox="0 0 24 24">
+                                  <path fill="currentColor" d="M5,9V15H9L14,20V4L9,9M18.5,12C18.5,10.23 17.5,8.71 16,7.97V16C17.5,15.29 18.5,13.76 18.5,12Z" />
+                                </svg>
+                                <svg class="volume-muted-icon" viewBox="0 0 24 24">
+                                  <path fill="currentColor" d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z" />
+                                </svg>
+                              </button>
+                              <input class="volume-slider" type="range" min="0" max="1" step="any" value="1">
+                            </div>
+                            <div class="duration-container">
+                              <div class="current-time">0:00</div>
+                              /
+                              <div class="total-time"></div>
+                            </div>
+                            <button class="captions-btn">
+                              <svg viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M18,11H16.5V10.5H14.5V13.5H16.5V13H18V14A1,1 0 0,1 17,15H14A1,1 0 0,1 13,14V10A1,1 0 0,1 14,9H17A1,1 0 0,1 18,10M11,11H9.5V10.5H7.5V13.5H9.5V13H11V14A1,1 0 0,1 10,15H7A1,1 0 0,1 6,14V10A1,1 0 0,1 7,9H10A1,1 0 0,1 11,10M19,4H5C3.89,4 3,4.89 3,6V18A2,2 0 0,0 5,20H19A2,2 0 0,0 21,18V6C21,4.89 20.1,4 19,4Z" />
+                              </svg>
+                            </button>
+                            <button class="speed-btn wide-btn">
+                              1x
+                            </button>
+                            <button class="mini-player-btn">
+                              <svg viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zm-10-7h9v6h-9z"/>
+                              </svg>
+                            </button>
+                           	<button class="theater-btn">                            
+                              </svg>
+                            </button>
+                            <button class="full-screen-btn">
+                              <svg class="open" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+                              </svg>
+                              <svg class="close" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                        <video th:src="${video.file}" type="video/mp4">
+                          <track kind="captions" srclang="en" src="images/private4/subtitles.vtt">
+                        </video>
+                      </div>
+                <div class="tags">
+                    <a href="">#Coding</a> <a href="">#HTML</a><a href="">#CSS</a>
+                    <a href="">#JavaScript</a>
+                </div>
+                <h3 th:text = "${video.title}"></h3>
+                <div class="play-video-info">
+              
+                    <p> <span id= "viewcounter"  th:text = "${video.views}"> </span> Views &bull; <th:block th:text ="${video.createdDate}" /> </p>
+                    <div id="emotion">   
+                    <th:block sec:authorize="isAnonymous()">                    
+                      <button class="btn" onclick="window.location.href = '/login';" ><i class="fa fa-thumbs-up fa-lg " aria-hidden="true"></i><span id="counter" th:text ="${video.likes}"></span></button>
+                      <button class="btn" onclick="window.location.href = '/login';"><i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i><span id="counter1" th:text ="${video.dislike}"></span></button>
+                     </th:block> 
+                     <th:block sec:authorize="isAuthenticated()" >                     
+                     <button class="btn" id="green" onclick="liked(event)" ><i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i><span id="counter" th:text ="${video.likes}"></span></button>
+                     <button class="btn" id="red" onclick="liked(event)"><i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i><span id="counter1" th:text ="${video.dislike}"></span></button>
+                     </th:block>
+                    </div>
+                </div>
+                <hr>
+                <div class="publisher">
+                    <img th:src="${video.user.avatar}">
+                    <div>
+                        <p th:text = "${video.user.fullName}"></p>
+                    </div>
+                </div>
+                <div class="vid-description">
+                    <p th:text = "${video.shortDescription}"></p>
+                    <p>Subscirbe me to learn more</p>
+                    
+                   </div>
+                 
+                 <div class= "comment">   
+
+                    <div class="add-comment">
+                    <div sec:authorize = "isAnonymous()">
+                    <input type="text" placeholder="Write Comments..." id = "cmtAny">                        
+                    </div>
+                    
+                    <div sec:authorize="isAuthenticated()" >
+                    <form  role="form" id="formCmt">
+                        <img th:src="${#authentication.principal.user.avatar}" /> 
+                         <input type="hidden" th:value="*{id}" name = "video_id" id="video_id"/>                     
+                        <input type="text" placeholder="Write Comments..." name ="content">
+                        <p><input type="submit" value="Comment" id="btnSubmit" /> <input type="reset" value="Cancel" /></p>
+    				</form>
+                    </div>
+                   
+                    </div>
+                
+                    <div class="old-comment" th:each="comment : ${comments}" >
+                        <img th:src="${comment.user.avatar}">
+                        <div >
+                          <h3 th:text ="${comment.user.fullName	}"> <span th:text = "${comment?.createdDate}"></span></h3>
+                            <p th:text ="${comment.content}"></p>
+                            <div class="comment-action" >
+                                <th:block sec:authorize="hasRole('USER')" th:if = "${comment.user.id == #authentication.principal.user.id}">
+                                <h3><span onclick="deleteC(event)" th:id = "${comment.id}">delete</span></h3>
+                               </th:block>
+                               <th:block sec:authorize ="hasRole('ADMIN')">
+                               <h3><span onclick="deleteC(event)" th:id = "${comment.id}">delete</span></h3>
+                               </th:block>
+                            </div>
+                             
+                        </div>
+                    </div>
+                   
+                 </div>               
+            </div>
+            <div class="right-sidebar" >
+            <th:block th:each ="uvideo: ${videos}">
+                <div class="side-video-list">
+                    <a th:href="@{/watch(id=${uvideo.id})}" class="small-thumbnail"> <img th:src="${uvideo.avatar}"></a>
+                    <div class="vid-info">
+                       <a href="@{/watch(id=${uvideo.id})}" th:text = "${uvideo.title}"></a>
+                        <p th:text = "${uvideo.user.fullName}"></p>
+                        <p th:text = "|${uvideo.views} &bull; ${uvideo.createdDate}|"> </p>
+                    </div>
+                </div>             
+			</th:block>
+            </div>
+        </div>
+    </div>
+    
+    	<div th:replace="template.html :: script"></div>
+   
+   					<!-- Comment -->
+  <script>
+$(document).ready(function(){
+  $("#cmtAny").click(function(){
+	  window.location.href = "/login";  
+  });
+});
+</script>
+ <script th:src = "@{/js/video.js}"></script>
+
+
+
+<script th:inline="javascript" >
+	 $('#btnSubmit').click(function (e) {
+		    e.preventDefault();
+		    $("#btnSubmit").prop("disabled", true);
+		    var data = {};
+		    var formData = $('#formCmt').serializeArray();
+		    $.each(formData, function (i, v) {
+	            data[""+v.name+""] = v.value;
+	        });  
+		    addNews(data)
+		});
+	
+		function addNews(data) {
+			$.ajax({
+	            url: '/user/api/comment',
+	            type: 'POST',
+	            contentType: 'application/json',
+	            data: JSON.stringify(data),
+	            dataType: 'json',
+	            success: function (result) {
+	            			
+	            	location.reload();              	
+	            },
+	            error : function(e) {
+					alert("Comment error!" + "\n" + e.responseText)
+					location.reload();
+				}
+	        });
+		}
+		
+		function deleteC(event){
+			var dat = [];
+			 dat.push(event.target.id);
+			 console.log(dat)
+
+			$.ajax({
+	            url: '/user/api/comment',
+	            type: 'delete',
+	            contentType: 'application/json',
+	            data: JSON.stringify(dat),
+	            success: function () {
+	            			
+	            	location.reload();              	
+	            }
+	           
+	           
+	        });
+		}
+		
+</script>
+
+<div th:replace="template.html :: script"></div>
+
+						<!-- Like  -->
+ 
+ <script src="https://use.fontawesome.com/fe459689b4.js"></script>			
+
+<th:block sec:authorize="isAuthenticated()" th:with="user = ${#authentication.principal.user.id}">
+<script  th:inline="javascript" >
+var btn1 = document.querySelector('#green');
+var btn2 = document.querySelector('#red');
+let like_flag = false;
+let dislike_flag = false;
+var data = {}
+data["user_id"] = /*[[${user}]]*/
+ data["video_id"] = /*[[${video.id}]]*/ null
+ 
+	 var emotion = [];
+	 var userid = [];
+	/*[# th:each="n : ${emotions}"]*/
+	emotion.push("[(${n.emotions})]");
+	userid.push("[(${n.user_id})]");
+	/*[/]*/
+
+ 	for (let i = 0; i < emotion.length; i++) {
+ 		if (userid[i] == /*[[${user}]]*/9 && emotion[i] == "l" ) {
+ 			btn1.classList.toggle('green');
+ 			like_flag=true;
+ 	        dislike_flag=false;
+		}else if (userid[i] == /*[[${user}]]*/9 && emotion[i] == "d" ) 
+		{
+ 			btn2.classList.toggle('red');
+ 			like_flag=false;
+ 	        dislike_flag=true;
+		}else{
+			like_flag = false;
+			dislike_flag = false;
+		}
+		
+	}
+	 
+	 	
+function liked(event) {
+  let counter = parseFloat(document.getElementById('counter').innerHTML);
+  let counter1 = parseFloat(document.getElementById('counter1').innerHTML);
+  var button = event.currentTarget.id;
+  switch(button){
+    case 'green':
+        if (like_flag==false && dislike_flag==false) {
+        counter++;
+        data["emotions"] =  "l";
+        addE(data)
+        like_flag=true;
+      } else if (like_flag==false && dislike_flag==true) {
+        counter++; 
+        counter1--;
+        data["emotions"] =  "l";
+        addE(data)
+        like_flag=true;
+        dislike_flag=false;
+        btn2.classList.remove('red');
+      } else {
+        counter--;
+        like_flag=false;
+        delE(data)
+      }
+      btn1.classList.toggle('green');
+    break;
+    case 'red':
+        if (dislike_flag==false && like_flag==false) {
+        counter1++;
+        data["emotions"] =  "d";
+        addE(data)
+        dislike_flag=true;
+      } else if (dislike_flag==false && like_flag==true) {
+        counter1++;
+        counter--; 
+        data["emotions"] =  "d";
+        addE(data)
+        btn1.classList.remove('green');
+        dislike_flag=true;
+        like_flag=false;
+      } else {
+        counter1--;
+        dislike_flag=false;
+        delE(data)
+      }
+      btn2.classList.toggle('red');
+    break;
+  }  
+  console.log('the button '+button+' was pressed');
+  document.getElementById('counter').innerHTML = counter;
+  document.getElementById('counter1').innerHTML = counter1;
+}
+
+
+function addE(data){
+	
+	console.log(JSON.stringify(data));
+
+	$.ajax({
+       url: '/user/api/emotion',
+       type: 'PUT',
+       contentType: 'application/json',
+       data: JSON.stringify(data) ,
+       dataType: 'json',
+      
+      
+   });
+}
+
+function delE(data){
+	
+	console.log(JSON.stringify(data));
+
+	$.ajax({
+       url: '/user/api/emotion',
+       type: 'delete',
+       contentType: 'application/json',
+       data: JSON.stringify(data) ,
+       dataType: 'json',
+      
+      
+   });
+}
+
+
+</script>
+</th:block>
+
+						<!-- view -->
+<script th:inline="javascript">
+
+
+
+ function addview() {
+	 var data = {}
+	 data["id"] = /*[[${video.id}]]*/
+	  data["views"] =  viewcounter;
+	
+	$.ajax({
+        url: '/api/view',
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(data) ,
+        dataType: 'json',
+       
+       
+    });
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head  th:replace="~{aTemplate.html :: header(User)}"></head>
+
+<body>
+
+<div  th:replace="aTemplate.html :: top"> </div>
+
+<div  class="sidebar" th:insert="aTemplate.html :: sidebar"></div>
+
+       
+     <!-- main --> 
+  
+  <div class="container">
+    <h1>Edit Profile</h1>
+      <hr>
+    <div class="row">
+      <!-- left column -->
+     <div class="col-sm-3">
+   
+  </div>
+      
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+        <div class="col-sm-9 alert alert-info alert-dismissable">
+          <a class="panel-close close" data-dismiss="alert"></a> 
+          <i class="fa fa-coffee"></i>
+          This is an <strong>.Edti User</strong>.Page.
+        </div>
+        
+        <form class="form-horizontal" role="form" th:object="${user}">
+
+        
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right">UserName</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control"  name="userName" th:value = "*{userName}"/>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right">Password</label>
+            <div class="col-sm-9">
+                <input type="password" class="form-control"  name="password" th:value = "*{password}"/>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right">FullName</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control"  name="fullName" th:value= "*{fullName}"/>
+            </div>
+        </div>
+        
+        
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right">Email</label>
+            <div class="col-sm-9">
+                <input type="email" class="form-control" name="email" th:value = "*{email}"/>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right">Avatar</label>
+            <div class="col-sm-9">
+                <input type="file" class="form-control" name="upAvatar" accept ="image/*"/>
+            </div>
+        </div>
+        
+       <input type="hidden" th:field="*{avatar}" />
+        <input type="hidden" th:field="*{id}" id="user_id" />
+        <div class="clearfix form-actions">
+							<div class="col-md-offset-3 col-md-9">
+											   <th:block th:if="${user.id != null }">
+												<button class="btn btn-info" type="button" id="btnAddOrUpdateNew">
+													<i class="ace-icon fa fa-check bigger-110"></i>
+													UPDATE
+												</button>
+											  	</th:block>
+											<th:block th:if="${user.id ==null}">
+												<button class="btn btn-info" type="button" id="btnAddOrUpdateNew">
+													<i class="ace-icon fa fa-check bigger-110"></i>
+													ADD
+												</button>
+											 </th:block>
+
+											&nbsp; &nbsp; &nbsp;
+											<button class="btn btn btn-secondary" type="reset">
+												<i class="ace-icon fa fa-undo bigger-110"></i>
+												CANCEL
+											</button>
+							</div>		
+						</div>
+        </form>
+      </div>
+  </div>
+  <hr>
+</div>
+    <div th:replace="aTemplate.html :: script"></div>
+    <!-- search -->	
+ 		<script type="text/javascript" th:inline="javascript"> 
+ 		var titles = [];
+ 		/*[# th:each="n : ${users}"]*/
+ 		titles.push("[(${n.fullName})]");
+ 		/*[/]*/
+ 	    
+ 		autocomplete(document.getElementById("myInput"), titles);
+ 		</script>
+    
+    <script>
+	 $('#btnAddOrUpdateNew').click(function (e) {
+	    e.preventDefault();
+	    $("#btnAddOrUpdateNew").prop("disabled", true);
+	    var data = new FormData();
+	    var datas = {};
+	    var formData = $('.form-horizontal').serializeArray();
+	    $.each(formData, function (i, v) {
+            datas[""+v.name+""] = v.value;
+        });
+	    var id = $('#user_id').val();
+	    data.append('user', new Blob([JSON.stringify(datas)], {
+            type: "application/json"
+        }));
+    	data.append('upAvatar', $('input[type=file]')[0].files[0]); 
+	    
+	    if (id == "") {
+	    	addNews(data);
+	    } else {
+	    	updateNews(data);
+	    }
+	});
+	
+	function addNews(data) {
+		$.ajax({
+            url: '/admin/api/user',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            data: data,
+            dataType: 'json',
+            success : function(result) {
+            	swal("Good job!", "Add Success!", "success").then(() => {
+            		window.location.href = "/admin/users";
+            	})
+			},
+			error : function(e) {
+				 var json = "ADD FAIL" + "\n" + e.responseText;
+                 alert(json);
+                 location.reload();
+			}
+        });
+	}
+	
+	function updateNews(data) {
+		$.ajax({
+            url: '/admin/api/user',
+            type: 'PUT',
+            processData: false,
+            contentType: false,
+            data: data,
+            dataType: 'json',
+            success : function(result) {
+            	swal("Good job!", "Update Success!", "success").then(() => {
+            			window.location.href = "/admin/users";
+    				});
+			},
+			error : function(e) {
+				 var json = "UPDATE FAIL" + "\n" + e.responseText;
+                 alert(json);
+                 location.reload();
+            	
+			}
+        });
+	} 
+</script>
+
+</body>
+</html>
