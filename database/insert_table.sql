@@ -1,10 +1,10 @@
-use youtube;
+use vimeo;
 
 insert into role(code,name) values('ROLE_ADMIN','Quan tri');
 insert into role(code,name) values('ROLE_USER','Nguoi dung');
 
 insert into user(user_name,password,full_name, avatar) 
-values('admin','$2a$10$/RUbuT9KIqk6f8enaTQiLOXzhnUkiwEJRdtzdrMXXwU7dgnLKTCYG','admin', '/images/private/tom.png');
+values('admin','$2a$10$/RUbuT9KIqk6f8enaTQiLOXzhnUkiwEJRdtzdrMXXwU7dgnLKTCYG','admin', '/asset/private/user/tom.png');
 
 INSERT INTO user_role(user_id,role_id) VALUES (1,1);
 

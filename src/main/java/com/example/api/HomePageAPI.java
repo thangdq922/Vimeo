@@ -37,7 +37,7 @@ public class HomePageAPI {
 
 	@PostMapping(value = "/api/registration", consumes = { "multipart/form-data" })
 	public ResponseEntity<?> registration(@RequestPart("user") @Valid UserDTO user, BindingResult result, Model model,
-			 @RequestPart MultipartFile upAvatar) {
+			 @RequestPart(required = false) MultipartFile upAvatar) {
 		UserEntity existing = userService.findByUserName(user.getUserName());
 		if (existing != null) {			
 			return ResponseEntity.badRequest().body("Username already exists");

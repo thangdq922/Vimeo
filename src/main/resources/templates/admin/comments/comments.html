@@ -48,7 +48,7 @@
             <th ><input type="checkbox" name='foo' th:id="|checkbox_${comment.id}|" th:value="${comment.id}"></th>
             <td th:text ="${comment.content}"></td>
             <td th:text ="${comment.user.fullName}"></td>
-            <td th:text ="${comment.video_id}"></td>
+            <td><a th:href="@{/watch(id=${comment.video_id})}"> <span th:text ="${comment.video_id}"></span> </a></td>
             <td th:text ="${comment.createdDate}"></td>
             
           </tr>

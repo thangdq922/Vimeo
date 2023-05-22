@@ -36,7 +36,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label no-padding-right">Title</label>
             <div class="col-sm-9">
-                <input type="text" class="form-control"  name="title" th:value = "*{title}"/>
+                <input type="text" class="form-control"  th:field = "*{title}"/>
             </div>
         </div>
         
@@ -58,7 +58,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label no-padding-right">ShortDescription</label>
             <div class="col-sm-9">
-                 <textarea  class="form-control" name="shortDescription" rows="5" cols="10" th:value = "*{shortDescription}" th:placeholder="*{shortDescription}"></textarea>
+                 <textarea  class="form-control"  rows="5" cols="10" th:field = "*{shortDescription}"></textarea>
             </div>
         </div>
         
