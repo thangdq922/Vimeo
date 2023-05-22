@@ -1,7 +1,7 @@
- # YOUTUBE-FAKE ( SPRING BOOT - THYMELEAF - MYSQL )
+ # VIMEO ( SPRING BOOT - THYMELEAF - MYSQL )
  
  *Introduction 
- - A website fake YouTube
+ - A website inspired by YouTube
  
  *Install 
  - JDK 17 & MySql 8.0
@@ -9,8 +9,7 @@
  *Prerequisites :
  
 - Setting connect MySql
-- Create database
+- Create database vimeo
 - Insert file inser_table into database
 
-NOTE:
-- images and videos: insert link from folder asset (/asset/private/**)
+
