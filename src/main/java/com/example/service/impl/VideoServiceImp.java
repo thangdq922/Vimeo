@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
@@ -32,35 +33,37 @@ public class VideoServiceImp implements VideoService {
 
 	@Autowired
 	VideoRepository videoRepository;
-
 	@Autowired
 	UserRepository userRepository;
-
 	@Autowired
 	CommentRepository commentRepository;
-
 	@Autowired
 	EmotionRepository emotionRepository;
-
 	@Autowired
 	VideoConverter converter;
+	@Value("${upload.path}" + "video\\")
+	private String fileUpload;
 
 	@Override
 	@Transactional
 	public VideoDTO saveVideo(VideoDTO videoDTO, MultipartFile upFile, MultipartFile upAvatar) {
 		VideoEntity videoEntity = new VideoEntity();
-		if (upAvatar != null & upFile != null) {
+		if (upAvatar != null) {
 			String avatar = StringUtils.cleanPath(upAvatar.getOriginalFilename());
-			String file = StringUtils.cleanPath(upFile.getOriginalFilename());
 			videoDTO.setAvatar("/asset/private/video/" + SecurityUtil.getPrincipal().getId() + "_" + avatar);
-			videoDTO.setFile("/asset/private/video/" + SecurityUtil.getPrincipal().getId() + "_" + file);
 			try {
 				FileCopyUtils.copy(upAvatar.getBytes(),
-						new File("D:\\thang\\git\\youtube-fake\\src\\main\\resources\\static\\asset\\private\\video\\"
-								+ SecurityUtil.getPrincipal().getId() + "_" + avatar));
+						new File(this.fileUpload + SecurityUtil.getPrincipal().getId() + "_" + avatar));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (upFile != null) {
+			String file = StringUtils.cleanPath(upFile.getOriginalFilename());
+			videoDTO.setFile("/asset/private/video/" + SecurityUtil.getPrincipal().getId() + "_" + file);
+			try {
 				FileCopyUtils.copy(upFile.getBytes(),
-						new File("D:\\thang\\git\\youtube-fake\\src\\main\\resources\\static\\asset\\private\\video\\"
-								+ SecurityUtil.getPrincipal().getId() + "_" + file));
+						new File(this.fileUpload + SecurityUtil.getPrincipal().getId() + "_" + file));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

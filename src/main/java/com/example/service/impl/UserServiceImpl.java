@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
@@ -31,6 +32,8 @@ public class UserServiceImpl implements UserService {
 	private RoleRepository roleRepository;
 	@Autowired
 	private UserConverter converter;
+	@Value("${upload.path}" + "user\\")
+	private String fileUpload;
 
 	@Override
 	@Transactional
@@ -49,16 +52,12 @@ public class UserServiceImpl implements UserService {
 			String fileName = StringUtils.cleanPath(upAvatar.getOriginalFilename());
 			user.setAvatar("/asset/private/user/" + userDto.getUserName() + "_" + fileName);
 			try {
-				FileCopyUtils.copy(upAvatar.getBytes(),
-						new File("D:\\thang\\git\\youtube-fake\\src\\main\\resources\\static\\asset\\private\\user\\"
-								+ userDto.getUserName() + "_" + fileName));
+				FileCopyUtils.copy(upAvatar.getBytes(), new File(this.fileUpload + userDto.getUserName() + "_" + fileName));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		UserEntity entity = userRepository.save(user);
-		UserDTO dto = converter.convertToDto(entity);
-		return dto;
+		return converter.convertToDto(userRepository.save(user));
 	}
 
 	@Override
