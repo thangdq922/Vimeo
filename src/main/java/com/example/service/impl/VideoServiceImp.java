@@ -140,7 +140,7 @@ public class VideoServiceImp implements VideoService {
 	public List<VideoDTO> sortDate(List<VideoDTO> dtos) {
 		List<Date> dates = new ArrayList<Date>();
 		dtos.forEach((dto) -> dates.add(dto.getCreatedDate()));
-		Collections.reverse(dates);
+		dates.sort((a, b) -> b.compareTo(a));
 		List<VideoDTO> videoDTOs = new ArrayList<>();
 		for (Date date : dates) {
 			for (VideoDTO dto : dtos) {
