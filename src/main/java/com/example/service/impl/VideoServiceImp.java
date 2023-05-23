@@ -179,21 +179,4 @@ public class VideoServiceImp implements VideoService {
 			sort(list, right + 1, to);
 		}
 	}
-
-	public List<VideoDTO> sortViews(List<VideoDTO> dtos) {
-		List<Long> views = new ArrayList<Long>();
-		dtos.forEach((dto) -> views.add(dto.getViews()));
-		quickSort(views);
-		List<VideoDTO> videoDTOs = new ArrayList<>();
-		for (Long view : views) {
-			for (VideoDTO dto : dtos) {
-				if (view == dto.getViews() && videoDTOs.contains(dto) == false) {
-					videoDTOs.add(dto);
-				}
-			}
-
-		}
-		return videoDTOs;
-	}
-
 }
