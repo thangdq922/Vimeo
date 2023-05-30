@@ -62,13 +62,15 @@ public class Users {
 	@GetMapping("/user/{uid}/video/edit")
 	public String editVideo(@RequestParam(value = "id", required = false) Long id, Model model,
 			@PathVariable Long uid) {
-		if (SecurityUtil.getPrincipal().getId() != uid) {
-			return "error/403";
-		}
 		VideoDTO videoDTO = new VideoDTO();
 		if (id != null) {
 			videoDTO = videoService.findById(id);
 		}
+		if (SecurityUtil.getPrincipal().getId() != uid
+				|| SecurityUtil.getPrincipal().getId() != videoDTO.getUser().getId()) {
+			return "error/403";
+		}
+
 		model.addAttribute("searchs", videoService.findVideoByUser(uid));
 		model.addAttribute("video", videoDTO);
 		return "user/editVideos";
