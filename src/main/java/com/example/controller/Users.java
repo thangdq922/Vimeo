@@ -65,9 +65,11 @@ public class Users {
 		VideoDTO videoDTO = new VideoDTO();
 		if (id != null) {
 			videoDTO = videoService.findById(id);
+			if (SecurityUtil.getPrincipal().getId() != videoDTO.getUser().getId()) {
+				return "error/403";
+			}
 		}
-		if (SecurityUtil.getPrincipal().getId() != uid
-				|| SecurityUtil.getPrincipal().getId() != videoDTO.getUser().getId()) {
+		if (SecurityUtil.getPrincipal().getId() != uid) {
 			return "error/403";
 		}
 
